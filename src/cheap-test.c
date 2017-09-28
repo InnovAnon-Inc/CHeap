@@ -53,6 +53,7 @@ int main (void) {
    size_t ntest = 100;
    size_t testi;
    int nums[20];
+   int maxn = 20;
 
    t = time (NULL);
    srand ((unsigned int) t);
@@ -63,7 +64,7 @@ int main (void) {
 
    #pragma GCC ivdep
    for (testi = 0; testi != ARRSZ (nums); testi++)
-      nums[testi] = rand ();
+      nums[testi] = rand () % maxn;
 
    for (testi = 0; testi != ARRSZ (nums); testi++)
       insert_cheap (&cheap, nums + testi);
