@@ -14,19 +14,19 @@ typedef __attribute__ ((nonnull (1, 2), warn_unused_result))
 int (*cheap_cmp_t) (void const *restrict a, void const *restrict b) ;
 
 typedef struct {
-   array_t *restrict array;
+   array_t array;
    size_t n;
    cheap_cmp_t cmp;
 } cheap_t;
 
-void init_cheap (cheap_t *restrict cheap, array_t *restrict array)
+/*void init_cheap (cheap_t *restrict cheap, array_t *restrict array)
 __attribute__ ((leaf, nonnull (1, 2), nothrow)) ;
 
 int alloc_cheap (cheap_t *restrict cheap, array_t *restrict array)
 __attribute__ ((leaf, nonnull (1, 2), nothrow, warn_unused_result)) ;
 
 void free_cheap (cheap_t *restrict cheap, array_t *restrict array)
-__attribute__ ((leaf, nonnull (1, 2), nothrow)) ;
+__attribute__ ((leaf, nonnull (1, 2), nothrow)) ;*/
 
 size_t get_parent (size_t i)
 __attribute__ ((const, leaf, nothrow, warn_unused_result)) ;
