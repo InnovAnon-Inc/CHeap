@@ -24,7 +24,7 @@ __attribute__ ((const, leaf, nothrow, warn_unused_result))
 size_t get_parent (size_t i) { return (i - 1) / 2; }
 
 __attribute__ ((const, leaf, nothrow, warn_unused_result))
-bool has_parent (size_t i) { return i != 0; }
+bool has_parent (size_t i) { return i != CHEAP_ROOT; }
 
 __attribute__ ((const, leaf, nothrow, warn_unused_result))
 size_t get_left_child (size_t i) { return i * 2 + 1; }
@@ -82,7 +82,8 @@ void insert_cheap (cheap_t *restrict cheap, void const *restrict e) {
    /* Add the element to the bottom level of the heap. */
    set_array (&(cheap->array), old_n, e);
    cheap->n++;
-   cheapify_up (cheap, old_n);
+   /*cheapify_up (cheap, old_n);*/
+   cheapify_up (cheap, cheap->n);
 }
 
 /* O (n log n) ? */
