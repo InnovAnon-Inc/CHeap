@@ -18,16 +18,16 @@
 
 #include <cheap.h>
 
-#define CHEAP_ROOT (0)
+#define CHEAP_ROOT ((size_t) 0)
 
 __attribute__ ((const, leaf, nothrow, warn_unused_result))
-size_t get_parent (size_t i) { return i / 2; }
+size_t get_parent (size_t i) { return (i - 1) / 2; }
 
 __attribute__ ((const, leaf, nothrow, warn_unused_result))
 bool has_parent (size_t i) { return i != 0; }
 
 __attribute__ ((const, leaf, nothrow, warn_unused_result))
-size_t get_left_child (size_t i) { return i * 2; }
+size_t get_left_child (size_t i) { return i * 2 + 1; }
 
 __attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result))
 bool has_left_child (cheap_t const *restrict cheap, size_t i) {
@@ -36,7 +36,7 @@ bool has_left_child (cheap_t const *restrict cheap, size_t i) {
 }
 
 __attribute__ ((const, leaf, nothrow, warn_unused_result))
-size_t get_right_child (size_t i) { return i * 2 + 1; }
+size_t get_right_child (size_t i) { return i * 2 + 2; }
 
 __attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result))
 bool has_right_child (cheap_t const *restrict cheap, size_t i) {
@@ -66,7 +66,7 @@ void cheapify_up (cheap_t const *restrict cheap, size_t i) {
       parent = get_parent (i);
 
       /* min heap */
-      if (cheap_cmp (&cheap, i, parent) >= 0) return;
+      if (cheap_cmp (cheap, i, parent) >= 0) return;
 
       /* If not, swap the element with its parent and return to the previous step. */
       swap_array2 (&(cheap->array), i, parent);
@@ -93,6 +93,7 @@ void inserts_cheap (cheap_t *restrict cheap,
    sets_array (&(cheap->array), old_n, e, n);
    cheap->n += n;
 
+   TODO (floyd ?)
    for ( ; old_n != cheap->n; old_n++)
       cheapify_up (cheap, old_n);
 }
@@ -109,12 +110,12 @@ void cheapify_down (cheap_t const *restrict cheap, size_t i) {
 
       /* Compare the new root with its children; if they are in the correct order, stop. */
       if (has_left_child (cheap, i)
-      && cheap_cmp (&cheap, lchild, largest) < 0)
-         largest = left;
+      && cheap_cmp (cheap, lchild, largest) < 0)
+         largest = lchild;
 
       if (has_right_child (cheap, i)
-      && cheap_cmp (&cheap, rchild, largest))
-         largest = right;
+      && cheap_cmp (cheap, rchild, largest))
+         largest = rchild;
 
       /* If not, swap the element with one of its children and return to the previous step. (Swap with its smaller child in a min-heap and its larger child in a max-heap.) */
       if (largest == i) return;
@@ -145,6 +146,7 @@ void removes_cheap (cheap_t *restrict cheap,
    cps_array (&(cheap->array), cheap->n - n, CHEAP_ROOT, n);
    cheap->n -= n;
 
+   TODO (floyd ?)
    for (i = n; i != 0; i--)
       cheapify_down (cheap, i - 1);
 }

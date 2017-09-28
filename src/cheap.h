@@ -14,7 +14,7 @@ typedef __attribute__ ((nonnull (1, 2), warn_unused_result))
 int (*cheap_cmp_t) (void const *restrict a, void const *restrict b) ;
 
 typedef struct {
-   array_t *restrict data;
+   array_t *restrict array;
    size_t n;
    cheap_cmp_t cmp;
 } cheap_t;
