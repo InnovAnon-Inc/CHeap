@@ -17,19 +17,111 @@
 
 #include <cheap.h>
 
+__attribute__ ((nonnull (1), nothrow))
+static void cheap_print (cheap_t const *restrict darr) {
+   size_t i;
+   fprintf (stderr, "esz : %d\n", (int) darr->array.esz);  fflush (stderr);
+   fprintf (stderr, "maxn: %d\n", (int) darr->array.n); fflush (stderr);
+   fprintf (stderr, "n   : %d\n", (int) darr->n);    fflush (stderr);
+   if (darr->n <= 30) {
+      fprintf (stderr, "["); fflush (stderr);
+      if (darr->n > 0) {
+         fprintf (stderr, "%d", ((int *restrict) darr->array.data)[0]); fflush (stderr);
+         for (i = 1; i != darr->n; i++)
+            fprintf (stderr, ", %d", ((int *restrict) darr->array.data)[i]); fflush (stderr);
+      }
+      fprintf (stderr, "]\n"); fflush (stderr);
+   }
+   fputs ("", stderr); fflush (stderr);
+}
+
+__attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
+static int cmp (void *restrict a, void *restrict b) {
+   int ai = *(int *restrict) a;
+   int bi = *(int *restrict) b;
+   return ai - bi;
+}
+
 __attribute__ ((nothrow, warn_unused_result))
 int main (void) {
-   cheap_t darr;
+   cheap_t cheap;
    time_t t;
-   size_t ntest = 1000;
+   size_t ntest = 100;
    size_t testi;
-   int nums[100];
+   int nums[20];
 
    t = time (NULL);
    srand ((unsigned int) t);
 
-   TODO (something)
+   alloc_cheap (&cheap, sizeof (*nums), ARRSZ (nums), cmp);
 
+   #pragma GCC ivdep
+   for (testi = 0; testi != ARRSZ (nums); testi++)
+      nums[testi] = rand ();
+
+   for (testi = 0; testi != ARRSZ (nums); testi++)
+      insert_cheap (&cheap, nums + testi);
+   cheap_print (&cheap);
+
+   #pragma GCC ivdep
+   for (testi = 0; testi != ARRSZ (nums); testi++)
+      nums[testi] = rand ();
+
+
+   /*
+   for (testi = 0; testi != ntest; testi++)
+      switch (rand () % 1) {
+      case 0:
+
+         break;
+      default __builtin_unreachable ();
+      }
+   */
+
+   free_cheap  (&cheap);
+
+   /*
+   error_check (init_test (&cheap) != 0) return -1;
+
+   get_nums (nums, ARRSZ (nums));
+
+   for (testi = 0; testi != ntest; testi++)
+      switch (rand () % 10) {
+      case 0:
+         error_check (test0 (&darr) != 0) return -4;
+         break;
+      case 1:
+         error_check (test1 (&darr, ARRSZ (nums)) != 0) return -5;
+         break;
+      case 2:
+         error_check (test2 (&darr) != 0) return -6;
+         break;
+      case 3:
+         error_check (test3 (&darr) != 0) return -6;
+         break;
+      case 4:
+         error_check (test4 (&darr) != 0) return -7;
+         break;
+      case 5:
+         error_check (test5 (&darr, nums, ARRSZ (nums)) != 0) return -5;
+         break;
+      case 6:
+         error_check (test6 (&darr) != 0) return -7;
+         break;
+      case 7:
+         error_check (test7 (&darr) != 0) return -7;
+         break;
+      case 8:
+         error_check (test8 (&darr) != 0) return -8;
+         break;
+      case 9:
+         error_check (test9 (&darr) != 0) return -9;
+         break;
+      default: __builtin_unreachable ();
+      }
+
+   free_test (&cheap);
+   */
    fputs ("success", stderr); fflush (stderr);
 
    return EXIT_SUCCESS;

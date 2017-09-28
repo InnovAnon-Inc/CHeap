@@ -146,7 +146,8 @@ void removes_cheap (cheap_t *restrict cheap,
    cps_array (&(cheap->array), cheap->n - n, CHEAP_ROOT, n);
    cheap->n -= n;
 
-   TODO (floyd ?)
+   TODO (floyd ?: see build_cheap ())
+   /*for (i = get_parent (n) + 1; i != 0; i--)*/
    for (i = n; i != 0; i--)
       cheapify_down (cheap, i - 1);
 }
