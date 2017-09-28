@@ -99,10 +99,30 @@ void inserts_cheap (cheap_t *restrict cheap,
 
 __attribute__ ((nonnull (1), nothrow))
 void cheapify_down (cheap_t const *restrict cheap, size_t i) {
-   size_t child;
-   while (has_child (cheap, i)) {
+   size_t lchild;
+   size_t rchild;
+   size_t largest;
+   while (true) {
+      lchild  = get_left_child  (i);
+      rchild  = get_right_child (i);
+      largest = i;
+
       /* Compare the new root with its children; if they are in the correct order, stop. */
+      if (has_left_child (cheap, i)
+      && cheap_cmp (&cheap, lchild, largest) < 0)
+         largest = left;
+
+      if (has_right_child (cheap, i)
+      && cheap_cmp (&cheap, rchild, largest))
+         largest = right;
+
       /* If not, swap the element with one of its children and return to the previous step. (Swap with its smaller child in a min-heap and its larger child in a max-heap.) */
+      if (largest == i) return;
+
+      swap_array2 (&(cheap->array), i, largest);
+
+      /* tail-recursive optimization: cheapify_down (cheap, largest) */
+      i = largest;
    }
 }
 
@@ -125,8 +145,8 @@ void removes_cheap (cheap_t *restrict cheap,
    cps_array (&(cheap->array), cheap->n - n, CHEAP_ROOT, n);
    cheap->n -= n;
 
-   for (i = n - 1; i >= 0; i--)
-      cheapify_down (cheap, i);
+   for (i = n; i != 0; i--)
+      cheapify_down (cheap, i - 1);
 }
 
 /* init, alloc, free */
