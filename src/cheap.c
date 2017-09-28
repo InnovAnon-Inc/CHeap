@@ -52,8 +52,8 @@ bool has_child (cheap_t const *restrict cheap, size_t i) {
 
 __attribute__ ((pure, leaf, nonnull (1), nothrow, warn_unused_result))
 int cheap_cmp (cheap_t const *restrict cheap, size_t i, size_t j) {
-   void const *restrict ie = get_array (&(cheap->array), i);
-   void const *restrict je = get_array (&(cheap->array), j);
+   void const *restrict ie = index_array (&(cheap->array), i);
+   void const *restrict je = index_array (&(cheap->array), j);
    return cheap->cmp (ie, je);
 }
 
