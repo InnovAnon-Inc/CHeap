@@ -151,4 +151,32 @@ void removes_cheap (cheap_t *restrict cheap,
       cheapify_down (cheap, i - 1);
 }
 
-/* init, alloc, free */
+/* assumes array is init'd but not yet heaped */
+__attribute__ ((nonnull (1), nothrow))
+void build_cheap (cheap_t const *restrict cheap) {
+   size_t i;
+   for (i = get_parent (cheap->n); i >= 0; i--)
+      cheapify_down (cheap, i);
+}
+
+__attribute__ ((leaf, nonnull (1, 2, 5), nothrow))
+void init_cheap (cheap_t *restrict cheap,
+   void *restrict data, size_t esz, size_t n, cheap_cmp_t cmp) {
+   init_array (&(cheap->array), data, esz, n);
+   cheap->n   = 0;
+   cheap->cmp = cmp;
+}
+
+__attribute__ ((leaf, nonnull (1, 4), nothrow, warn_unused_result))
+int alloc_cheap (cheap_t *restrict cheap,
+   size_t esz, size_t n, cheap_cmp_t cmp) {
+   error_check (alloc_array (&(cheap->array), data, esz, n) != 0) return -1;
+   cheap->n   = 0;
+   cheap->cmp = cmp;
+   return 0;
+}
+
+__attribute__ ((leaf, nonnull (1), nothrow))
+void free_cheap (cheap_t const *restrict cheap) {
+   free_array (&(cheap->array));
+}

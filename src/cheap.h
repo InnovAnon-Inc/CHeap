@@ -19,14 +19,16 @@ typedef struct {
    cheap_cmp_t cmp;
 } cheap_t;
 
-/*void init_cheap (cheap_t *restrict cheap, array_t *restrict array)
-__attribute__ ((leaf, nonnull (1, 2), nothrow)) ;
+void init_cheap (cheap_t *restrict cheap,
+   void *restrict data, size_t esz, size_t n, cheap_cmp_t cmp)
+__attribute__ ((leaf, nonnull (1, 2, 5), nothrow)) ;
 
-int alloc_cheap (cheap_t *restrict cheap, array_t *restrict array)
-__attribute__ ((leaf, nonnull (1, 2), nothrow, warn_unused_result)) ;
+int alloc_cheap (cheap_t *restrict cheap,
+   size_t esz, size_t n, cheap_cmp_t cmp)
+__attribute__ ((leaf, nonnull (1, 4), nothrow, warn_unused_result)) ;
 
-void free_cheap (cheap_t *restrict cheap, array_t *restrict array)
-__attribute__ ((leaf, nonnull (1, 2), nothrow)) ;*/
+void free_cheap (cheap_t const *restrict cheap)
+__attribute__ ((leaf, nonnull (1), nothrow)) ;
 
 size_t get_parent (size_t i)
 __attribute__ ((const, leaf, nothrow, warn_unused_result)) ;
@@ -73,6 +75,9 @@ __attribute__ ((nonnull (1, 2), nothrow)) ;
 void removes_cheap (cheap_t *restrict cheap,
    void *restrict e, size_t n)
 __attribute__ ((nonnull (1, 2), nothrow)) ;
+
+void build_cheap (cheap_t const *restrict cheap)
+__attribute__ ((nonnull (1), nothrow)) ;
 
 #ifdef __cplusplus
 }
