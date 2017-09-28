@@ -61,7 +61,7 @@ int main (void) {
    time_t t;
    size_t ntest = 100;
    size_t testi;
-   int nums[20];
+   int nums[10];
    int maxn = 20;
 
    t = time (NULL);
@@ -77,13 +77,14 @@ int main (void) {
 
    for (testi = 0; testi != ARRSZ (nums); testi++) {
       insert_cheap (&cheap, nums + testi);
+      nums[testi] = rand ();
       cheap_print (&cheap);
    }
    fputs ("", stderr);
 
    /*#pragma GCC ivdep*/
-   for (testi = 0; testi != ARRSZ (nums); testi++)
-      nums[testi] = rand ();
+   /*for (testi = 0; testi != ARRSZ (nums); testi++)
+      nums[testi] = rand ();*/
 
    for (testi = 0; testi != ARRSZ (nums); testi++)
       remove_cheap (&cheap, nums + testi);

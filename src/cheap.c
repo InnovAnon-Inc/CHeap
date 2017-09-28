@@ -82,8 +82,7 @@ void insert_cheap (cheap_t *restrict cheap, void const *restrict e) {
    /* Add the element to the bottom level of the heap. */
    set_array (&(cheap->array), old_n, e);
    cheap->n++;
-   /*cheapify_up (cheap, old_n);*/
-   cheapify_up (cheap, cheap->n);
+   cheapify_up (cheap, old_n);
 }
 
 /* O (n log n) ? */
