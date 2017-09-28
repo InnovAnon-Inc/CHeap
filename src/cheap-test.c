@@ -18,27 +18,31 @@
 #include <cheap.h>
 
 __attribute__ ((nonnull (1), nothrow))
+static void array_print (array_t const *restrict array,
+   size_t i, size_t j) {
+   fprintf (stderr, "esz : %d\n", (int) array->esz);  fflush (stderr);
+   fprintf (stderr, "maxn: %d\n", (int) array->n); fflush (stderr);
+   fprintf (stderr, "["); fflush (stderr);
+   /*if (array->n != 0) {*/
+   if (i != j) {
+      fprintf (stderr, "%d", ((int *restrict) darr->array.data)[i]); fflush (stderr);
+      for (i++; i != j; i++)
+         fprintf (stderr, ", %d", ((int *restrict) darr->array.data)[i]); fflush (stderr);
+   }
+   fprintf (stderr, "]\n"); fflush (stderr);
+}
+
+__attribute__ ((nonnull (1), nothrow))
 static void cheap_print (cheap_t const *restrict darr) {
    size_t i;
-   fprintf (stderr, "esz : %d\n", (int) darr->array.esz);  fflush (stderr);
-   fprintf (stderr, "maxn: %d\n", (int) darr->array.n); fflush (stderr);
-   fprintf (stderr, "n   : %d\n", (int) darr->n);    fflush (stderr);
-   if (darr->n <= 30) {
-      fprintf (stderr, "["); fflush (stderr);
-      if (darr->n > 0) {
-         fprintf (stderr, "%d", ((int *restrict) darr->array.data)[0]); fflush (stderr);
-         for (i = 1; i != darr->n; i++)
-            fprintf (stderr, ", %d", ((int *restrict) darr->array.data)[i]); fflush (stderr);
-      }
-      fprintf (stderr, "]\n"); fflush (stderr);
-   }
-   fputs ("", stderr); fflush (stderr);
+   fprintf (stderr, "n: %d\n", (int) darr->n);    fflush (stderr);
+   array_print (array, (size_t) 0, darr->n);
 }
 
 __attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
-static int cmp (void *restrict a, void *restrict b) {
-   int ai = *(int *restrict) a;
-   int bi = *(int *restrict) b;
+static int cmp (void const *restrict a, void const *restrict b) {
+   int ai = *(int const *restrict) a;
+   int bi = *(int const *restrict) b;
    return ai - bi;
 }
 
@@ -53,7 +57,9 @@ int main (void) {
    t = time (NULL);
    srand ((unsigned int) t);
 
-   alloc_cheap (&cheap, sizeof (*nums), ARRSZ (nums), cmp);
+   error_check (alloc_cheap (&cheap,
+      sizeof (*nums), ARRSZ (nums), cmp) != 0)
+      return -1;
 
    #pragma GCC ivdep
    for (testi = 0; testi != ARRSZ (nums); testi++)
