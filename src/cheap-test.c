@@ -24,9 +24,9 @@ static void data_print (void const *restrict data,
    fprintf (stderr, "["); fflush (stderr);
    /*if (array->n != 0) {*/
    if (i != j) {
-      fprintf (stderr, "%d", ((int *restrict) data)[i]); fflush (stderr);
+      fprintf (stderr, "%d", ((int const *restrict) data)[i]); fflush (stderr);
       for (i++; i != j; i++)
-         fprintf (stderr, ", %d", ((int *restrict) data)[i]); fflush (stderr);
+         fprintf (stderr, ", %d", ((int const *restrict) data)[i]); fflush (stderr);
    }
    fprintf (stderr, "]\n"); fflush (stderr);
 }
