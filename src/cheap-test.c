@@ -75,9 +75,11 @@ int main (void) {
    for (testi = 0; testi != ARRSZ (nums); testi++)
       nums[testi] = rand () % maxn;
 
-   for (testi = 0; testi != ARRSZ (nums); testi++)
+   for (testi = 0; testi != ARRSZ (nums); testi++) {
       insert_cheap (&cheap, nums + testi);
-   cheap_print (&cheap);
+      cheap_print (&cheap);
+   }
+   fputs (stderr, "");
 
    #pragma GCC ivdep
    for (testi = 0; testi != ARRSZ (nums); testi++)
