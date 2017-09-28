@@ -71,7 +71,7 @@ int main (void) {
       sizeof (*nums), ARRSZ (nums), cmp) != 0)
       return -1;
 
-   #pragma GCC ivdep
+   /*#pragma GCC ivdep*/
    for (testi = 0; testi != ARRSZ (nums); testi++)
       nums[testi] = rand () % maxn;
 
@@ -81,7 +81,7 @@ int main (void) {
    }
    fputs ("", stderr);
 
-   #pragma GCC ivdep
+   /*#pragma GCC ivdep*/
    for (testi = 0; testi != ARRSZ (nums); testi++)
       nums[testi] = rand ();
 
