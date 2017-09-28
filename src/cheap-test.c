@@ -17,19 +17,27 @@
 
 #include <cheap.h>
 
+// must provide a callback for printing each field of a struct
+//
+
+static void data_print (void const *restrict array,
+   size_t i, size_t j) {
+   fprintf (stderr, "["); fflush (stderr);
+   /*if (array->n != 0) {*/
+   if (i != j) {
+      fprintf (stderr, "%d", ((int *restrict) data)[i]); fflush (stderr);
+      for (i++; i != j; i++)
+         fprintf (stderr, ", %d", ((int *restrict) data)[i]); fflush (stderr);
+   }
+   fprintf (stderr, "]\n"); fflush (stderr);
+}
+
 __attribute__ ((nonnull (1), nothrow))
 static void array_print (array_t const *restrict array,
    size_t i, size_t j) {
    fprintf (stderr, "esz : %d\n", (int) array->esz);  fflush (stderr);
    fprintf (stderr, "maxn: %d\n", (int) array->n); fflush (stderr);
-   fprintf (stderr, "["); fflush (stderr);
-   /*if (array->n != 0) {*/
-   if (i != j) {
-      fprintf (stderr, "%d", ((int *restrict) array->data)[i]); fflush (stderr);
-      for (i++; i != j; i++)
-         fprintf (stderr, ", %d", ((int *restrict) array->data)[i]); fflush (stderr);
-   }
-   fprintf (stderr, "]\n"); fflush (stderr);
+   data_print (array, i, j);
 }
 
 __attribute__ ((nonnull (1), nothrow))
@@ -73,6 +81,10 @@ int main (void) {
    #pragma GCC ivdep
    for (testi = 0; testi != ARRSZ (nums); testi++)
       nums[testi] = rand ();
+
+   for (testi = 0; testi != ARRSZ (nums); testi++)
+      remove_cheap (&cheap, nums + testi);
+   data_print (nums, 0, ARRSZ (nums));
 
 
    /*
