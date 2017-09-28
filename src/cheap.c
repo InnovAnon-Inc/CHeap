@@ -17,3 +17,10 @@
 
 #include <cheap.h>
 
+__attribute__ ((nonnull (1)))
+void insert_cheap (cheap_t *restrict cheap) {
+   /* Add the element to the bottom level of the heap. */
+   cheap->data
+   /* Compare the added element with its parent; if they are in the correct order, stop. */
+   /* If not, swap the element with its parent and return to the previous step. */
+}

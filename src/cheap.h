@@ -9,7 +9,12 @@ extern "C" {
 
 #include <glitter.h>
 
-TODO (something)
+typedef struct {
+   void *restrict data;
+   size_t esz;
+   size_t n;
+   size_t maxn;
+} cheap_t;
 
 #ifdef __cplusplus
 }
