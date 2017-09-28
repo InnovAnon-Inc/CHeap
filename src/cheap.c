@@ -155,8 +155,8 @@ void removes_cheap (cheap_t *restrict cheap,
 __attribute__ ((nonnull (1), nothrow))
 void build_cheap (cheap_t const *restrict cheap) {
    size_t i;
-   for (i = get_parent (cheap->n); i >= 0; i--)
-      cheapify_down (cheap, i);
+   for (i = get_parent (cheap->n) + 1; i != 0; i--)
+      cheapify_down (cheap, i - 1);
 }
 
 __attribute__ ((leaf, nonnull (1, 2, 5), nothrow))
@@ -170,7 +170,7 @@ void init_cheap (cheap_t *restrict cheap,
 __attribute__ ((leaf, nonnull (1, 4), nothrow, warn_unused_result))
 int alloc_cheap (cheap_t *restrict cheap,
    size_t esz, size_t n, cheap_cmp_t cmp) {
-   error_check (alloc_array (&(cheap->array), data, esz, n) != 0) return -1;
+   error_check (alloc_array (&(cheap->array), esz, n) != 0) return -1;
    cheap->n   = 0;
    cheap->cmp = cmp;
    return 0;
