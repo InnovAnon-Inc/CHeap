@@ -17,10 +17,9 @@
 
 #include <cheap.h>
 
-// must provide a callback for printing each field of a struct
-//
+/* must provide a callback for printing each field of a struct */
 
-static void data_print (void const *restrict array,
+static void data_print (void const *restrict data,
    size_t i, size_t j) {
    fprintf (stderr, "["); fflush (stderr);
    /*if (array->n != 0) {*/
@@ -31,6 +30,8 @@ static void data_print (void const *restrict array,
    }
    fprintf (stderr, "]\n"); fflush (stderr);
 }
+
+/* must provide acllback for printing array->data */
 
 __attribute__ ((nonnull (1), nothrow))
 static void array_print (array_t const *restrict array,
@@ -84,7 +85,7 @@ int main (void) {
 
    for (testi = 0; testi != ARRSZ (nums); testi++)
       remove_cheap (&cheap, nums + testi);
-   data_print (nums, 0, ARRSZ (nums));
+   data_print (nums, (size_t) 0, ARRSZ (nums));
 
 
    /*
