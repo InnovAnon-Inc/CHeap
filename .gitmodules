@@ -4,3 +4,6 @@
 [submodule "glitter"]
 	path = glitter
 	url = https://github.com/InnovAnon-Inc/glitter.git
+[submodule "Array"]
+	path = Array
+	url = https://github.com/InnovAnon-Inc/Array.git
