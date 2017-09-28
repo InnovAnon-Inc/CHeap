@@ -75,6 +75,7 @@ int main (void) {
    for (testi = 0; testi != ARRSZ (nums); testi++)
       nums[testi] = rand () % maxn;
 
+   cheap_print (&cheap);
    for (testi = 0; testi != ARRSZ (nums); testi++) {
       insert_cheap (&cheap, nums + testi);
       nums[testi] = rand ();
@@ -86,8 +87,10 @@ int main (void) {
    /*for (testi = 0; testi != ARRSZ (nums); testi++)
       nums[testi] = rand ();*/
 
-   for (testi = 0; testi != ARRSZ (nums); testi++)
+   for (testi = 0; testi != ARRSZ (nums); testi++) {
       remove_cheap (&cheap, nums + testi);
+      cheap_print (&cheap);
+   }
    data_print (nums, (size_t) 0, ARRSZ (nums));
 
 
