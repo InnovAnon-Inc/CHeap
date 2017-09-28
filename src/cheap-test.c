@@ -77,8 +77,10 @@ int main (void) {
 
    cheap_print (&cheap);
    for (testi = 0; testi != ARRSZ (nums); testi++) {
+      fprintf (stderr, "nums 1 [%d]: %d\n", (int) testi, nums[testi]); fflush (stderr);
       insert_cheap (&cheap, nums + testi);
       nums[testi] = rand ();
+      fprintf (stderr, "nums 2 [%d]: %d\n", (int) testi, nums[testi]); fflush (stderr);
       cheap_print (&cheap);
    }
    fputs ("", stderr);
