@@ -25,9 +25,9 @@ static void array_print (array_t const *restrict array,
    fprintf (stderr, "["); fflush (stderr);
    /*if (array->n != 0) {*/
    if (i != j) {
-      fprintf (stderr, "%d", ((int *restrict) darr->array.data)[i]); fflush (stderr);
+      fprintf (stderr, "%d", ((int *restrict) array->data)[i]); fflush (stderr);
       for (i++; i != j; i++)
-         fprintf (stderr, ", %d", ((int *restrict) darr->array.data)[i]); fflush (stderr);
+         fprintf (stderr, ", %d", ((int *restrict) array->data)[i]); fflush (stderr);
    }
    fprintf (stderr, "]\n"); fflush (stderr);
 }
@@ -36,7 +36,7 @@ __attribute__ ((nonnull (1), nothrow))
 static void cheap_print (cheap_t const *restrict darr) {
    size_t i;
    fprintf (stderr, "n: %d\n", (int) darr->n);    fflush (stderr);
-   array_print (array, (size_t) 0, darr->n);
+   array_print ((&darr->array), (size_t) 0, darr->n);
 }
 
 __attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
