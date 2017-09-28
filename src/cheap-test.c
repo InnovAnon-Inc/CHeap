@@ -79,7 +79,7 @@ int main (void) {
       insert_cheap (&cheap, nums + testi);
       cheap_print (&cheap);
    }
-   fputs (stderr, "");
+   fputs ("", stderr);
 
    #pragma GCC ivdep
    for (testi = 0; testi != ARRSZ (nums); testi++)
