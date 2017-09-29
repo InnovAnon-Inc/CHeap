@@ -114,7 +114,7 @@ void cheapify_down (cheap_t const *restrict cheap, size_t i) {
          largest = lchild;
 
       if (has_right_child (cheap, i)
-      && cheap_cmp (cheap, rchild, largest))
+      && cheap_cmp (cheap, rchild, largest) < 0)
          largest = rchild;
 
       /* If not, swap the element with one of its children and return to the previous step. (Swap with its smaller child in a min-heap and its larger child in a max-heap.) */
