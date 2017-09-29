@@ -11,5 +11,5 @@ cheap_SOURCES = cheap-test.c
 cheap_LDADD = libcheap.la -larray -lswap
 
 AM_CPPFLAGS = -D__STDC_INT64__
-AM_CPPFLAGS += -I $(srcdir)/../glitter/src
-AM_CPPFLAGS += -I $(srcdir)/../Array/src
+#AM_CPPFLAGS += -I $(srcdir)/../glitter/src
+#AM_CPPFLAGS += -I $(srcdir)/../Array/src
