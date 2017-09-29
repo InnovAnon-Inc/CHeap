@@ -38,7 +38,7 @@ static void array_print (array_t const *restrict array,
    size_t i, size_t j) {
    fprintf (stderr, "esz : %d\n", (int) array->esz);  fflush (stderr);
    fprintf (stderr, "maxn: %d\n", (int) array->n); fflush (stderr);
-   data_print (array, i, j);
+   data_print (array->data, i, j);
 }
 
 __attribute__ ((nonnull (1), nothrow))
