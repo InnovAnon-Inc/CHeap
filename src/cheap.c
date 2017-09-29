@@ -132,7 +132,8 @@ void remove_cheap (cheap_t *restrict cheap, void *restrict e) {
    /* Replace the root of the heap with the last element on the last level. */
    /*swap_array2 (&(cheap->array), CHEAP_ROOT, cheap->n - 1);*/
    get_array (&(cheap->array), CHEAP_ROOT, e);
-   cp_array (&(cheap->array), cheap->n - 1, CHEAP_ROOT);
+   if (cheap->n != 1)
+      cp_array (&(cheap->array), cheap->n - 1, CHEAP_ROOT);
    cheap->n--;
 
    cheapify_down (cheap, CHEAP_ROOT);
