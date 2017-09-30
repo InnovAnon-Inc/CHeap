@@ -10,8 +10,7 @@ lib_LTLIBRARIES =
 include_HEADERS =
 bin_PROGRAMS    =
 
-LIBCHEAP_LIBADD  = ../Array/src/.libs/libarray.la $(LIBARRAY_LIBADD)
-LIBCHEAP_LIBADD += ../swap/src/.libs/libswap.la $(LIBSWAP_LIBADD)
+include Makefile-LIBADD.inc
 
 lib_LTLIBRARIES += libcheap.la
 libcheap_la_SOURCES = cheap.c
