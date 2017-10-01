@@ -7,3 +7,6 @@
 [submodule "Array"]
 	path = Array
 	url = https://github.com/InnovAnon-Inc/Array.git
+[submodule "swap"]
+	path = swap
+	url = https://github.com/InnovAnon-Inc/swap.git
