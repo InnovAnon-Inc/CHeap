@@ -54,7 +54,7 @@ cheap_t *ez_alloc_cheap (size_t esz, size_t maxn, cheap_cmp_t cmp) {
 	cheap = (cheap_t *restrict) combined[0];
 	data  = (void *restrict)    combined[1];
 
-   init_cheap (cheap, data, esz, n, cmp);
+   init_cheap (cheap, data, esz, maxn, cmp);
 	return cheap;
 }
 
