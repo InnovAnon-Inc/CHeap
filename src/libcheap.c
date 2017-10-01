@@ -7,18 +7,65 @@
 
 /*#define NDEBUG 1*/
 
+#include <assert.h>
 #include <stdbool.h>
-#ifndef NDEBUG
-#include <stdio.h>
-#endif
 #include <stdlib.h>
 #include <string.h>
 
-/*#include <math.h>*/
+#include <mmalloc.h>
 
 #include <cheap.h>
 
 #define CHEAP_ROOT ((size_t) 0)
+
+#define GEQ(A) ((A) >= 0)
+#define LEQ(A) ((A) <= 0)
+#define GT(A)  ((A) >  0)
+#define LT(A)  ((A) <  0)
+
+#define CHEAP_GEQ(C, A, B) (GEQ (cheap_cmp ((C), (A), (B))))
+#define CHEAP_LEQ(C, A, B) (LEQ (cheap_cmp ((C), (A), (B))))
+#define CHEAP_GT(C, A, B)  (GT  (cheap_cmp ((C), (A), (B))))
+#define CHEAP_LT(C, A, B)  (LT  (cheap_cmp ((C), (A), (B))))
+
+__attribute__ ((const, leaf, nothrow, warn_unused_result))
+size_t cheapsz (size_t esz, size_t n) {
+   return sizeof (cheap_t) + datasz (esz, n);
+}
+
+__attribute__ ((nonnull (1), nothrow, pure, warn_unused_result))
+size_t cheapsz2 (cheap_t const *restrict cheap) {
+   return cheapsz (cheap->array.esz, cheap->array.n);
+}
+
+__attribute__ ((/*alloc_align (1),*/ /*alloc_size (1, 2),*/ /*malloc,*/
+	nonnull (3), nothrow, warn_unused_result))
+cheap_t *ez_alloc_cheap (size_t esz, size_t maxn, cheap_cmp_t cmp) {
+   void *restrict combined[2];
+	size_t eszs[2];
+	cheap_t *restrict cheap;
+	void *restrict data;
+
+	eszs[0] = sizeof (cheap_t);
+	eszs[1] = datasz  (esz, maxn);
+	error_check (mmalloc (combined, eszs,
+		eszs[0] + eszs[1], ARRSZ (eszs)) != 0)
+		return NULL;
+	cheap = (cheap_t *restrict) combined[0];
+	data  = (void *restrict)    combined[1];
+
+   init_cheap (cheap, data, esz, n, cmp);
+	return cheap;
+}
+
+__attribute__ ((leaf, nonnull (1), nothrow))
+void ez_free_cheap (cheap_t *restrict cheap) {
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wstrict-aliasing"
+   mfree ((void *restrict) cheap);
+	#pragma GCC diagnostic pop
+   free (cheap);
+}
 
 __attribute__ ((const, leaf, nothrow, warn_unused_result))
 size_t get_parent (size_t i) { return (i - 1) / 2; }
@@ -66,7 +113,7 @@ void cheapify_up (cheap_t const *restrict cheap, size_t i) {
       parent = get_parent (i);
 
       /* min heap */
-      if (cheap_cmp (cheap, i, parent) >= 0) return;
+      if (CHEAP_GEQ (cheap, i, parent)) return;
 
       /* If not, swap the element with its parent and return to the previous step. */
       swap_array2 (&(cheap->array), i, parent);
@@ -110,11 +157,11 @@ void cheapify_down (cheap_t const *restrict cheap, size_t i) {
 
       /* Compare the new root with its children; if they are in the correct order, stop. */
       if (has_left_child (cheap, i)
-      && cheap_cmp (cheap, lchild, largest) < 0)
+      && CHEAP_LT (cheap, lchild, largest))
          largest = lchild;
 
       if (has_right_child (cheap, i)
-      && cheap_cmp (cheap, rchild, largest) < 0)
+      && CHEAP_LT (cheap, rchild, largest))
          largest = rchild;
 
       /* If not, swap the element with one of its children and return to the previous step. (Swap with its smaller child in a min-heap and its larger child in a max-heap.) */
@@ -196,4 +243,39 @@ bool isempty_cheap (cheap_t const *restrict cheap) {
 __attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result))
 size_t remaining_space_cheap (cheap_t const *restrict cheap) {
    return cheap->array.n - cheap->n;
+}
+
+__attribute__ ((leaf, nonnull (1, 2), nothrow, pure, warn_unused_result))
+size_t indexOf_cheap (cheap_t const *restrict cheap,
+	void const *restrict e) {
+   array_t tmp;
+   size_t ret;
+   init_array (&tmp, cheap->array.data, cheap->array.esz, cheap->n);
+   ret = indexOf_array (&tmp, e);
+   assert (ret < cheap->n);
+   return ret;
+}
+
+__attribute__ ((leaf, nonnull (1, 2), nothrow, pure, warn_unused_result))
+bool contains_cheap (cheap_t const *restrict cheap,
+	void const *restrict e) {
+   array_t tmp;
+   init_array (&tmp, cheap->array.data, cheap->array.esz, cheap->n);
+   return contains_array (&tmp, e);
+}
+
+__attribute__ ((nonnull (1, 2), nothrow, pure, warn_unused_result))
+ssize_t indexOf_cheap_chk (cheap_t const *restrict cheap,
+   void const *restrict e) {
+   array_t tmp;
+   ssize_t ret;
+   init_array (&tmp, cheap->array.data, cheap->array.esz, cheap->n);
+   ret = indexOf_array_chk (&tmp, e);
+   assert (ret == (ssize_t) -1 || ret < (ssize_t) cheap->n);
+   return ret;
+}
+
+__attribute__ ((leaf, nonnull (1), nothrow, pure, returns_nonnull, warn_unused_result))
+void *index_cheap (cheap_t const *restrict cheap, size_t i) {
+   return index_array (&(cheap->array), i);
 }

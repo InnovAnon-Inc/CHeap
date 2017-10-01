@@ -19,6 +19,19 @@ typedef struct {
    cheap_cmp_t cmp;
 } cheap_t;
 
+size_t cheapsz (size_t esz, size_t n)
+__attribute__ ((const, leaf, nothrow, warn_unused_result)) ;
+
+size_t cheapsz2 (cheap_t const *restrict cheap)
+__attribute__ ((nonnull (1), nothrow, pure, warn_unused_result)) ;
+
+cheap_t *ez_alloc_cheap (size_t esz, size_t maxn, cheap_cmp_t cmp)
+__attribute__ ((/*alloc_align (1),*/ /*alloc_size (1, 2),*/ /*malloc,*/
+	nonnull (3), nothrow, warn_unused_result)) ;
+
+void ez_free_cheap (cheap_t *restrict cheap)
+__attribute__ ((leaf, nonnull (1), nothrow)) ;
+
 void init_cheap (cheap_t *restrict cheap,
    void *restrict data, size_t esz, size_t n, cheap_cmp_t cmp)
 __attribute__ ((leaf, nonnull (1, 2, 5), nothrow)) ;
@@ -88,6 +101,33 @@ __attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result)) ;
 size_t remaining_space_cheap (cheap_t const *restrict cheap)
 __attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result)) ;
 
+size_t indexOf_cheap (cheap_t const *restrict cheap,
+	void const *restrict e)
+__attribute__ ((leaf, nonnull (1, 2), nothrow, pure, warn_unused_result)) ;
+
+bool contains_cheap (cheap_t const *restrict cheap,
+	void const *restrict e)
+__attribute__ ((leaf, nonnull (1, 2), nothrow, pure, warn_unused_result)) ;
+
+ssize_t indexOf_cheap_chk (cheap_t const *restrict cheap,
+   void const *restrict e)
+__attribute__ ((nonnull (1, 2), nothrow, pure, warn_unused_result)) ;
+
+void *index_cheap (cheap_t const *restrict cheap, size_t i)
+__attribute__ ((leaf, nonnull (1), nothrow, pure, returns_nonnull, warn_unused_result)) ;
+
+TODO (isEdge (i))
+TODO (isEdge (e))
+TODO (getEdges ())
+TODO (isLeaf (i))
+TODO (isLeaf (e))
+TODO (getLeafs ())
+TODO (getPath (i))
+TODO (getPath (e))
+TODO (getDepth (i))
+TODO (getDepth (e))
+TODO (depth-first ())
+TODO (breadth-first ())
 
 #ifdef __cplusplus
 }
