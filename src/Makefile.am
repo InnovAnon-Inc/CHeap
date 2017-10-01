@@ -15,7 +15,6 @@ bin_PROGRAMS    =
 include Makefile-LIBADD.inc
 
 lib_LTLIBRARIES += libcheap.la
-libcheap_la_SOURCES = cheap.c
 libcheap_la_LIBADD = $(LIBCHEAP_LIBADD)
 include_HEADERS += cheap.h
 bin_PROGRAMS += cheap-test
