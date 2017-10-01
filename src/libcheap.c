@@ -185,7 +185,7 @@ void free_cheap (cheap_t const *restrict cheap) {
 
 __attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result))
 bool isfull_cheap (cheap_t const *restrict cheap) {
-   return cheap->n == cheap->array.n
+   return cheap->n == cheap->array.n;
 }
 
 __attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result))
