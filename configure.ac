@@ -15,14 +15,15 @@ AC_ARG_ENABLE([use-submodules],
 AM_CONDITIONAL([USE_SUBMODULES], [test x"$enable_use_submodules" = "xyes"])
 
 AC_CONFIG_MACRO_DIR([m4])
-AC_CONFIG_SUBDIRS([glitter Array])
+AC_CONFIG_SUBDIRS([glitter Array MultiMalloc])
 
 AC_CHECK_HEADERS([stdlib.h sys/types.h])
 #AC_CHECK_HEADERS([math.h])
-AC_CHECK_HEADERS([glitter.h array.h])
+AC_CHECK_HEADERS([glitter.h array.h mmalloc.h])
 
 #AC_CHECK_LIB([stdlib],[])
 AC_CHECK_LIB([array],[init_array,alloc_array,free_array,get_array,set_array])
+AC_CHECK_LIB([mmalloc],[mmalloc,mfree])
 #AC_CHECK_LIB([math],[fabs])
 
 INNOVANON_WARNINGS([])
