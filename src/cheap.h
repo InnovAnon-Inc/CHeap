@@ -79,6 +79,16 @@ __attribute__ ((nonnull (1, 2), nothrow)) ;
 void build_cheap (cheap_t const *restrict cheap)
 __attribute__ ((nonnull (1), nothrow)) ;
 
+bool isfull_cheap (cheap_t const *restrict cheap)
+__attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result)) ;
+
+bool isempty_cheap (cheap_t const *restrict cheap)
+__attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result)) ;
+
+size_t remaining_space_cheap (cheap_t const *restrict cheap)
+__attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result)) ;
+
+
 #ifdef __cplusplus
 }
 #endif

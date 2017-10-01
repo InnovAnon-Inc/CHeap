@@ -182,3 +182,18 @@ __attribute__ ((leaf, nonnull (1), nothrow))
 void free_cheap (cheap_t const *restrict cheap) {
    free_array (&(cheap->array));
 }
+
+__attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result))
+bool isfull_cheap (cheap_t const *restrict cheap) {
+   return cheap->n == cheap->array.n
+}
+
+__attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result))
+bool isempty_cheap (cheap_t const *restrict cheap) {
+   return cheap->n == 0;
+}
+
+__attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result))
+size_t remaining_space_cheap (cheap_t const *restrict cheap) {
+   return cheap->array.n - cheap->n;
+}
