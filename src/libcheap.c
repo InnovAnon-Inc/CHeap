@@ -71,7 +71,7 @@ cheap_t *ez_alloc_cheap (size_t esz, size_t maxn, cheap_cmp_t cmp) {
 		eszs[0] + eszs[1], ARRSZ (eszs)) != 0)
 		return NULL;
 
-   init_cheap (caq, data, esz, maxn);
+   init_cheap (caq, data, esz, maxn, cmp);
 	return caq;
 }
 
