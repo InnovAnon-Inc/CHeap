@@ -265,21 +265,12 @@ size_t remaining_space_cheap (cheap_t const *restrict cheap) {
 __attribute__ ((leaf, nonnull (1, 2), nothrow, pure, warn_unused_result))
 size_t indexOf_cheap (cheap_t const *restrict cheap,
 	void const *restrict e) {
-   size_t n = cheap->array.n;
-   size_t ret;
-   cheap->array.n = cheap->n;
-   ret = indexOf_array (cheap, e);
-   cheap->array.n = n;
-   assert (ret < cheap->n);
-   return ret;
-   /*
    array_t tmp;
    size_t ret;
    init_array (&tmp, cheap->array.data, cheap->array.esz, cheap->n);
    ret = indexOf_array (&tmp, e);
    assert (ret < cheap->n);
    return ret;
-   */
 }
 
 __attribute__ ((leaf, nonnull (1, 2), nothrow, pure, warn_unused_result))
