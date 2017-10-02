@@ -41,6 +41,7 @@ size_t cheapsz2 (cheap_t const *restrict cheap) {
 __attribute__ ((/*alloc_align (1),*/ /*alloc_size (1, 2),*/ /*malloc,*/
 	nonnull (3), nothrow, warn_unused_result))
 cheap_t *ez_alloc_cheap (size_t esz, size_t maxn, cheap_cmp_t cmp) {
+   /*
    void *restrict combined[2];
 	size_t eszs[2];
 	cheap_t *restrict cheap;
@@ -56,6 +57,22 @@ cheap_t *ez_alloc_cheap (size_t esz, size_t maxn, cheap_cmp_t cmp) {
 
    init_cheap (cheap, data, esz, maxn, cmp);
 	return cheap;
+   */
+   void *restrict *restrict combined[2];
+	size_t eszs[2];
+	cheap_t *restrict caq;
+	void *restrict data;
+
+	eszs[0] = sizeof (cheap_t);
+	eszs[1] = datasz  (esz, maxn);
+   combined[0] = (void *restrict *restrict) &caq;
+   combined[1] = (void *restrict *restrict) &data;
+	error_check (mmalloc2 (combined, eszs,
+		eszs[0] + eszs[1], ARRSZ (eszs)) != 0)
+		return NULL;
+
+   init_cheap (caq, data, esz, maxn);
+	return caq;
 }
 
 __attribute__ ((leaf, nonnull (1), nothrow))
@@ -64,7 +81,7 @@ void ez_free_cheap (cheap_t *restrict cheap) {
 	#pragma GCC diagnostic ignored "-Wstrict-aliasing"
    mfree ((void *restrict) cheap);
 	#pragma GCC diagnostic pop
-   free (cheap);
+   /*free (cheap);*/
 }
 
 __attribute__ ((const, leaf, nothrow, warn_unused_result))
@@ -248,34 +265,67 @@ size_t remaining_space_cheap (cheap_t const *restrict cheap) {
 __attribute__ ((leaf, nonnull (1, 2), nothrow, pure, warn_unused_result))
 size_t indexOf_cheap (cheap_t const *restrict cheap,
 	void const *restrict e) {
+   size_t n = cheap->array.n;
+   size_t ret;
+   cheap->array.n = cheap->n;
+   ret = indexOf_array (cheap, e);
+   cheap->array.n = n;
+   assert (ret < cheap->n);
+   return ret;
+   /*
    array_t tmp;
    size_t ret;
    init_array (&tmp, cheap->array.data, cheap->array.esz, cheap->n);
    ret = indexOf_array (&tmp, e);
    assert (ret < cheap->n);
    return ret;
+   */
 }
 
 __attribute__ ((leaf, nonnull (1, 2), nothrow, pure, warn_unused_result))
 bool contains_cheap (cheap_t const *restrict cheap,
 	void const *restrict e) {
+   size_t n = cheap->array.n;
+   bool ret;
+   cheap->array.n = cheap->n;
+   ret = contains_array (cheap, e);
+   cheap->array.n = n;
+   return ret;
+   /*
    array_t tmp;
    init_array (&tmp, cheap->array.data, cheap->array.esz, cheap->n);
    return contains_array (&tmp, e);
+   */
 }
 
 __attribute__ ((nonnull (1, 2), nothrow, pure, warn_unused_result))
 ssize_t indexOf_cheap_chk (cheap_t const *restrict cheap,
    void const *restrict e) {
+   size_t n = cheap->array.n;
+   ssize_t ret;
+   cheap->array.n = cheap->n;
+   ret = indexOf_array_chk (cheap, e);
+   cheap->array.n = n;
+   assert (ret == (ssize_t) -1 || ret < (ssize_t) cheap->n);
+   return ret;
+   /*
    array_t tmp;
    ssize_t ret;
    init_array (&tmp, cheap->array.data, cheap->array.esz, cheap->n);
    ret = indexOf_array_chk (&tmp, e);
    assert (ret == (ssize_t) -1 || ret < (ssize_t) cheap->n);
    return ret;
+   */
 }
 
 __attribute__ ((leaf, nonnull (1), nothrow, pure, returns_nonnull, warn_unused_result))
 void *index_cheap (cheap_t const *restrict cheap, size_t i) {
    return index_array (&(cheap->array), i);
+}
+
+__attribute__ ((leaf, nonnull (1, 2), nothrow))
+void frees_cheap (cheap_t const *restrict cheap, free_t f) {
+   size_t n = cheap->array.n;
+   frees_array (&(cheap->array), f);
+   cheap->array.n = n;
 }

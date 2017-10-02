@@ -116,6 +116,9 @@ __attribute__ ((nonnull (1, 2), nothrow, pure, warn_unused_result)) ;
 void *index_cheap (cheap_t const *restrict cheap, size_t i)
 __attribute__ ((leaf, nonnull (1), nothrow, pure, returns_nonnull, warn_unused_result)) ;
 
+void frees_cheap (cheap_t const *restrict cheap, free_t cb)
+__attribute__ ((leaf, nonnull (1, 2), nothrow)) ;
+
 TODO (isEdge (i))
 TODO (isEdge (e))
 TODO (getEdges ())
