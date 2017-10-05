@@ -35,10 +35,17 @@ typedef struct {
    size_t n;
 } cheap_alloc_t;
 
+__attribute__ ((nonnull (1, 2), nothrow, warn_unused_result))
+static int cmp (void const *restrict a, void const *restrict b) {
+   int ai = *(int const *restrict) a;
+   int bi = *(int const *restrict) b;
+   return ai - bi;
+}
+
 __attribute__ ((nonnull (1), nothrow, warn_unused_result))
 static void *cheap_alloc (void const *restrict arg_) {
    cheap_alloc_t const *restrict arg = (cheap_alloc_t const *restrict) arg_;
-   return ez_alloc_cheap (arg->esz, arg->n);
+   return ez_alloc_cheap (arg->esz, arg->n, cmp);
 }
 
 __attribute__ ((nonnull (1), nothrow))
