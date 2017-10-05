@@ -101,6 +101,9 @@ __attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result)) ;
 size_t remaining_space_cheap (cheap_t const *restrict cheap)
 __attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result)) ;
 
+size_t used_space_cheap (cheap_t const *restrict cheap)
+__attribute__ ((leaf, nonnull (1), nothrow, pure, warn_unused_result)) ;
+
 size_t indexOf_cheap (cheap_t const *restrict cheap,
 	void const *restrict e)
 __attribute__ ((leaf, nonnull (1, 2), nothrow, pure, warn_unused_result)) ;
