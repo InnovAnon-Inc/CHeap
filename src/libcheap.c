@@ -214,7 +214,7 @@ void removes_cheap (cheap_t *restrict cheap,
    fprintf (stderr, "removes_cheap (n:%d)\n", (int) n);
 #endif
    gets_array (&(cheap->array), CHEAP_ROOT, e, n); /* mostly sorted... mostly */
-   cps_array (&(cheap->array), cheap->n - n, CHEAP_ROOT, n);
+   /*cps*/mvs_array (&(cheap->array), cheap->n - n, CHEAP_ROOT, n);
    cheap->n -= n;
 
    TODO (floyd ?: see build_cheap ())
