@@ -18,4 +18,4 @@ lib_LTLIBRARIES += libcheap.la
 libcheap_la_LIBADD = $(LIBCHEAP_LIBADD)
 include_HEADERS += cheap.h
 bin_PROGRAMS += cheap-test
-cheap_test_LDADD = libcheap.la $(LIBCHEAP_LIBADD)
+cheap_test_LDADD = libcheap.la $(LIBCHEAP_LIBADD) -lsimon $(LIBSIMON_LIBADD)

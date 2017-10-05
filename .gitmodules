@@ -13,3 +13,6 @@
 [submodule "MultiMalloc"]
 	path = MultiMalloc
 	url = https://github.com/InnovAnon-Inc/MultiMalloc.git
+[submodule "StD"]
+	path = StD
+	url = https://github.com/InnovAnon-Inc/StD.git
