@@ -65,7 +65,10 @@ static void generates_int (void *restrict arg_, size_t n) {
 __attribute__ ((nonnull (1), nothrow, warn_unused_result))
 static int cheap_add_test (void *restrict arg_) {
    int tmp;
-   int err = add_test (arg_, &tmp,
+   int err;
+   fprintf (stderr, "caq_add_test ()\n");
+   dumpq ((cheap_t *restrict) arg_);
+   err = add_test (arg_, &tmp,
       (isfull_t) isfull_cheap, generate_int, (add_t) insert_cheap);
    if (err == TEST_NA) return 0;
    error_check (err != 0) return -1;
@@ -77,7 +80,10 @@ static int cheap_add_test (void *restrict arg_) {
 __attribute__ ((nonnull (1), nothrow, warn_unused_result))
 static int cheap_remove_test (void *restrict arg_) {
    int tmp;
-   int err = remove_test (arg_, &tmp,
+   int err;
+   fprintf (stderr, "caq_remove_test ()\n");
+   dumpq ((cheap_t *restrict) arg_);
+   err = remove_test (arg_, &tmp,
       (isempty_t) isempty_cheap, (remove_t) remove_cheap);
    if (err == TEST_NA) return 0;
    error_check (err != 0) return -1;
@@ -89,6 +95,8 @@ static int cheap_remove_test (void *restrict arg_) {
 __attribute__ ((nonnull (1), nothrow, warn_unused_result))
 static int cheap_adds_test (void *restrict arg_) {
    int tmps[13]; /* arbitrary params */
+   fprintf (stderr, "caq_adds_test ()\n");
+   dumpq ((cheap_t *restrict) arg_);
    error_check (adds_test (arg_, tmps, ARRSZ (tmps),
       (remaining_space_t) remaining_space_cheap,
       generates_int, (adds_t) inserts_cheap) != 0)
@@ -102,6 +110,8 @@ static int cheap_adds_test (void *restrict arg_) {
 __attribute__ ((nonnull (1), nothrow, warn_unused_result))
 static int cheap_removes_test (void *restrict arg_) {
    int tmps[12]; /* arbitrary params */
+   fprintf (stderr, "caq_removes_test ()\n");
+   dumpq ((cheap_t *restrict) arg_);
    error_check (removes_test (arg_, tmps, ARRSZ (tmps),
       (used_space_t) used_space_cheap, (removes_t) removes_cheap) != 0)
       return -1;
