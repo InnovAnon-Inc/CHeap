@@ -82,7 +82,7 @@ __attribute__ ((leaf, nonnull (1), nothrow))
 void ez_free_cheap (cheap_t *restrict cheap) {
 	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Wstrict-aliasing"
-   mfree ((void *restrict) cheap);
+   mfree2 ((void *restrict) cheap);
 	#pragma GCC diagnostic pop
    /*free (cheap);*/
 }
