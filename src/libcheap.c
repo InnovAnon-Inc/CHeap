@@ -9,6 +9,9 @@
 
 #include <assert.h>
 #include <stdbool.h>
+#ifndef NDEBUG
+#include <stdio.h>
+#endif
 #include <stdlib.h>
 #include <string.h>
 
