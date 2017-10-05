@@ -211,7 +211,7 @@ void removes_cheap (cheap_t *restrict cheap,
    void *restrict e, size_t n) {
    size_t i;
 #ifndef NDEBUG
-   fprintf (stderr, "removes_cheap (n:%d)\n", *(int *restrict) e);
+   fprintf (stderr, "removes_cheap (n:%d)\n", (int) n);
 #endif
    gets_array (&(cheap->array), CHEAP_ROOT, e, n); /* mostly sorted... mostly */
    cps_array (&(cheap->array), cheap->n - n, CHEAP_ROOT, n);
