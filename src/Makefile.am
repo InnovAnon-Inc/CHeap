@@ -17,6 +17,6 @@ include Makefile-LIBADD.inc
 lib_LTLIBRARIES += libcheap.la
 libcheap_la_LIBADD = $(LIBCHEAP_LIBADD)
 include_HEADERS += cheap.h
-include ../StD/src/Makefile-LIBADD.inc
+include ../../StD/src/Makefile-LIBADD.inc
 bin_PROGRAMS += cheap-test
 cheap_test_LDADD = libcheap.la $(LIBCHEAP_LIBADD) -lsimon $(LIBSIMON_LIBADD)
