@@ -26,6 +26,12 @@ AC_CHECK_LIB([array],[init_array,alloc_array,free_array,get_array,set_array])
 AC_CHECK_LIB([mmalloc],[mmalloc,mfree])
 #AC_CHECK_LIB([math],[fabs])
 
+LIBCHEAP_LIBADD="`PATH=src:$PATH libcheap_config --libs`"
+AC_SUBST(LIBCHEAP_LIBADD)
+
+CHEAP_TEST_LIBADD="libcheap.la `PATH=src:$PATH cheap_test_config --libs`"
+AC_SUBST(CHEAP_TEST_LIBADD)
+
 INNOVANON_WARNINGS([])
 
 AC_OUTPUT
