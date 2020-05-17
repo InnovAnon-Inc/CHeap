@@ -5,12 +5,12 @@ include_HEADERS =
 bin_PROGRAMS    =
 
 lib_LTLIBRARIES += libcheap.la
-libcheap_la_CPPFLAGS = $(GLITTER_CFLAGS) $(ARRAY_CFLAGS)
-libcheap_la_LIBADD   = $(GLITTER_LIBS)   $(ARRAY_LIBS)
+libcheap_la_CPPFLAGS = $(GLITTER_CFLAGS) $(ARRAY_CFLAGS) $(MMALLOC_CFLAGS)
+libcheap_la_LIBADD   = $(GLITTER_LIBS)   $(ARRAY_LIBS)   $(MMALLOC_LIBS)
 include_HEADERS += cheap.h
 
 bin_PROGRAMS += cheap-test
-cheap_test_CPPFLAGS =         $(GLITTER_CFLAGS) $(ARRAY_CFLAGS) $(SIMON_CFLAGS)
-cheap_test_LDADD    = -lcheap $(GLITTER_LIBS)   $(ARRAY_LIBS)   $(SIMON_LIBS)
+cheap_test_CPPFLAGS =         $(GLITTER_CFLAGS) $(ARRAY_CFLAGS) $(MMALLOC_CFLAGS) $(SIMON_CFLAGS)
+cheap_test_LDADD    = -lcheap $(GLITTER_LIBS)   $(ARRAY_LIBS)   $(MMALLOC_LIBS)   $(SIMON_LIBS)
 EXTRA_cheap_test_DEPENDENCIES = libcheap.la
 
