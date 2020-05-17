@@ -31,6 +31,7 @@ AC_CHECK_HEADERS([stdlib.h sys/types.h])
 
 PKG_CHECK_MODULES([GLITTER],[glitter],,)
 PKG_CHECK_MODULES([ARRAY],[libarray],,)
+PKG_CHECK_MODULES([MMALLOC],[libmmalloc],,)
 PKG_CHECK_MODULES([SIMON],[libsimon],,)
 
 INNOVANON_WARNINGS([])
