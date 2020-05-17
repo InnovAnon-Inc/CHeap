@@ -1,0 +1,15 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+cheap_utility=cheap-test
+
+Name: @PACKAGE_NAME@ test
+Description: cheap library test application
+Version: @PACKAGE_VERSION@
+Libs: -L${libdir} -lcheap
+Cflags: -I${includedir}
+Requires:
+Requires.private: -lcheap -lmmalloc -lsimon
+

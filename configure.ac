@@ -8,34 +8,32 @@ AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([
  Makefile
  src/Makefile
+ src/libcheap.pc
+ src/cheap-test.pc
 ])
+
+PKG_PROG_PKG_CONFIG
 
 AC_ARG_ENABLE([use-submodules],
     AS_HELP_STRING([--enable-use-submodules], [Enable use submodules]))
 AM_CONDITIONAL([USE_SUBMODULES], [test x"$enable_use_submodules" = "xyes"])
 
 AC_CONFIG_MACRO_DIR([m4])
-#AC_CONFIG_SUBDIRS([glitter Array MultiMalloc])
 
 AC_CHECK_HEADERS([stdlib.h sys/types.h])
 #AC_CHECK_HEADERS([math.h])
-AC_CHECK_HEADERS([glitter.h array.h mmalloc.h])
+#AC_CHECK_HEADERS([glitter.h array.h mmalloc.h])
 
 #AC_CHECK_LIB([stdlib],[])
-AC_CHECK_LIB([array],[init_array,alloc_array,free_array,get_array,set_array])
-AC_CHECK_LIB([mmalloc],[mmalloc,mfree])
+#AC_CHECK_LIB([array],[init_array,alloc_array,free_array,get_array,set_array])
+#AC_CHECK_LIB([mmalloc],[mmalloc,mfree])
 #AC_CHECK_LIB([math],[fabs])
 
-#srcdir = @srcdir@
-#LIBCHEAP_LIBADD="`PATH=$(srcdir)src:$PATH libcheap_config --libs`"
-LIBCHEAP_LIBADD="`PATH=src:$PATH libcheap_config --libs`"
-AC_SUBST(LIBCHEAP_LIBADD)
-
-#CHEAP_TEST_LIBADD="libcheap.la `PATH=src:$PATH cheap_test_config --libs`"
-#CHEAP_TEST_LIBADD="`PATH=$(srcdir)src:$PATH cheap_test_config --libs`"
-CHEAP_TEST_LIBADD="`PATH=src:$PATH cheap_test_config --libs`"
-AC_SUBST(CHEAP_TEST_LIBADD)
+PKG_CHECK_MODULES([GLITTER],[glitter],,)
+PKG_CHECK_MODULES([ARRAY],[array],,)
+PKG_CHECK_MODULES([SIMON],[simon],,)
 
 INNOVANON_WARNINGS([])
 
 AC_OUTPUT
+
