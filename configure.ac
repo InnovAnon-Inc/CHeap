@@ -30,8 +30,8 @@ AC_CHECK_HEADERS([stdlib.h sys/types.h])
 #AC_CHECK_LIB([math],[fabs])
 
 PKG_CHECK_MODULES([GLITTER],[glitter],,)
-PKG_CHECK_MODULES([ARRAY],[array],,)
-PKG_CHECK_MODULES([SIMON],[simon],,)
+PKG_CHECK_MODULES([ARRAY],[libarray],,)
+PKG_CHECK_MODULES([SIMON],[libsimon],,)
 
 INNOVANON_WARNINGS([])
 

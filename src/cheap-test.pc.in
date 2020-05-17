@@ -11,5 +11,6 @@ Version: @PACKAGE_VERSION@
 Libs: -L${libdir} -lcheap
 Cflags: -I${includedir}
 Requires:
-Requires.private: -lcheap -lmmalloc -lsimon
+#Requires.private: -lcheap -lmmalloc -lsimon
+Requires.private: libcheap libmmalloc libsimon
 
