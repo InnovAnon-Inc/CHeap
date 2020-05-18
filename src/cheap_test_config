@@ -1,7 +1,0 @@
-#! /bin/bash
-set -eu
-[ $# -eq 1 ]
-[ $1 == --libs ]
-#echo `libcheap_config --libs` -lsimon `libsimon_config --libs`
-echo -lcheap `libcheap_config --libs` -lsimon `libsimon_config --libs`
-
